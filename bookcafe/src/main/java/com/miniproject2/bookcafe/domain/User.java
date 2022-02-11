@@ -1,5 +1,6 @@
 package com.miniproject2.bookcafe.domain;
 
+import com.miniproject2.bookcafe.dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,10 +24,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public User(String nickname, String email, String password) {
-        this.nickname = nickname;
-        this.email = email;
-        this.password = password;
-
+    public User(SignupRequestDto requestDto, String enPassword) {
+        this.nickname = requestDto.getNickname();
+        this.email = requestDto.getEmail();
+        this.password = enPassword;
     }
 }
