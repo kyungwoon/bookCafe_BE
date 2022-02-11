@@ -1,4 +1,4 @@
-package main.java.com.miniproject2.bookcafe.domain;
+package com.miniproject2.bookcafe.domain;
 
 public class Comments {
 }
