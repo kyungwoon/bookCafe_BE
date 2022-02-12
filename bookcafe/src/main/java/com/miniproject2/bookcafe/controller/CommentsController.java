@@ -12,16 +12,16 @@ public class CommentsController {
 
     // 댓글 불러오기
     @GetMapping("/comments/{moimId}")
-    public List<CommentResponseDto> readComments(@PathVariable Long id) {
+    public List<CommentResponseDto> readComments(@PathVariable Long moimId) {
 
         return commentService.readComments(n);
     }
 
     //댓글 작성성
    @PostMapping("/comments/{moimId}")
-    public void writeComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public void writeComment(@PathVariable Long moimId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // 로그인 되어 있는 ID
-        commentService.writeComment(commentRequestDto, id, userDetails.getUser());
+        commentService.writeComment(commentRequestDto, moimId, userDetails.getUser());
 
     }
 
