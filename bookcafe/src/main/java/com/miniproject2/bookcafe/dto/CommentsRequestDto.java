@@ -1,10 +1,11 @@
-package main.java.com.miniproject2.bookcafe.dto;
-
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
+package com.miniproject2.bookcafe.dto;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class CommentsRequestDto {
     private Long commentId;
     private Long moinID;

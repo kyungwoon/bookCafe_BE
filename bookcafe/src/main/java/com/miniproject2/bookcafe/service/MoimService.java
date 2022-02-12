@@ -33,10 +33,10 @@ public class MoimService {
     }
 
     public List<MoimResponseDto> getMoims(){
-        List<Moim> moims= moimRepository.findAllByOrderByModifiedAtDesc();
+        List<Moim> moimList= moimRepository.findAllByOrderByModifiedAtDesc();
         List<MoimResponseDto> moimResponseDtos = new ArrayList<>();
 
-        for(Moim moim : moims) {
+        for(Moim moim : moimList) {
             Long moimId = moim.getMoimId();
 
             List<MoimMember> moimMemberList = getMoimMembers(moimId);

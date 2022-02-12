@@ -1,7 +1,6 @@
 package com.miniproject2.bookcafe.dto;
 
 import com.miniproject2.bookcafe.domain.Moim;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -12,6 +11,7 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 public class MoimResponseDto {
+    private Long moimId;
     private String title;
     private String contents;
     private String nickname;
@@ -27,6 +27,7 @@ public class MoimResponseDto {
 
 
     public MoimResponseDto(Moim moim,List<String> moimMembers){
+        this.moimId = moim.getMoimId();
         this.title = moim.getTitle();
         this.contents = moim.getContents();
         this.nickname = moim.getNickname();

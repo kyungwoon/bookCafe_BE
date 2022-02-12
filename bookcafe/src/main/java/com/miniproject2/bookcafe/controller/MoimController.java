@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,7 +28,6 @@ public class MoimController {
         return moimService.createMoim(moim);
     }
 
-
     // 모임 삭제하기
     @DeleteMapping("/moims/{moimId}")
     public Long deletMoim(@PathVariable Long moimId){
@@ -37,13 +35,11 @@ public class MoimController {
         return moimId;
     }
 
-
     // 모임 불러오기 (response DTO 작업해야 함)
     @GetMapping("/moims")
     public List<MoimResponseDto> getMoims(){
         return moimService.getMoims();
     }
-
 
     // 상세 페이지 모임 불러오기
     @GetMapping("/moims/{moimId}")
@@ -69,7 +65,6 @@ public class MoimController {
     }
 
 
-
     // 모임 참가 취소하기
     @DeleteMapping("/moims/join")
     public Moim deleteMoimMember(@RequestBody MoimMemberRequestDto requestDto){
@@ -80,10 +75,6 @@ public class MoimController {
         moimMemberRepository.deleteById(memberId);
         return null;
     }
-
-
-
-
 }
 
 
