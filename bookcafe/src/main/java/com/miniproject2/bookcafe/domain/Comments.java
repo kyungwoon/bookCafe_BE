@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 public class Comments {
+
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long commentId;

@@ -26,3 +26,4 @@ public class MoimMember{
         this.nickname = requestDto.getNickname();
     }
 }
+
