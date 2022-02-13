@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -15,7 +14,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
     public void registerUser(SignupRequestDto requestDto) {
 
         //중복된 이메일(로그인 id)가 존재할 경우
@@ -36,5 +34,16 @@ public class UserService {
 
         User user = new User(requestDto, enPassword);
         userRepository.save(user); // DB 저장
+    }
+
+    public User login(String username, String password) {
+//        System.out.println(username);
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("아이디 찾을 수 없습니다."));
+
+        if (!passwordEncoder.matches(password,user.getPassword() ))
+        {
+            throw new IllegalArgumentException("비밀번호 불일치");
+        }
+        return user;
     }
 }

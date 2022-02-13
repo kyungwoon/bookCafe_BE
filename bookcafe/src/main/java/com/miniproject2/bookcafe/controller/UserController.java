@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -32,21 +34,19 @@ public class UserController {
 //        return "index";
 //    }
 
-    @PostMapping("/api/login")
-    public Map<String,String> login(@RequestBody UserRequestDto requestDto) {
-        User user = userRepository.findByUsername(requestDto.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 유저입니다."));
-        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 잘못되었습니다.");
-        }
+    @PostMapping("/user/login")
+    public List<Map<String,String>> login(@RequestBody SignupRequestDto requestDto) {
 
-        Map<String,String>jwtLogin = new HashMap<>();
-        String token = jwtTokenProvider.createToken(user.getUsername());
-        String username = user.getUsername();
-        jwtLogin.put("token", token);
-        jwtLogin.put("username",username);
+        User user = userService.login(requestDto.getUsername(), requestDto.getPassword());
+
+        Map<String,String> username =new HashMap<>();
+        Map<String,String>token = new HashMap<>();
+        List<Map<String,String>> jwtLogin = new ArrayList<>(); // 리스트를 만드는데, Map형태(키:밸류 형태)의 변수들을 담는다.
+        token.put("token",jwtTokenProvider.createToken(requestDto.getUsername())); // "username" : {username}
+        username.put("username",user.getUsername()); // "token" : {token}
+        jwtLogin.add(username); //List형태 ["username" : {username}]
+        jwtLogin.add(token); //List형태 ["token" : {token}]
 
         return jwtLogin;
     }
-
 }
