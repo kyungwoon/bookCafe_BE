@@ -3,6 +3,7 @@ package com.miniproject2.bookcafe.service;
 import com.miniproject2.bookcafe.domain.User;
 import com.miniproject2.bookcafe.dto.SignupRequestDto;
 import com.miniproject2.bookcafe.repository.UserRepository;
+import com.miniproject2.bookcafe.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public void registerUser(SignupRequestDto requestDto) {
 
@@ -32,8 +34,9 @@ public class UserService {
         // 패스워드
         String enPassword = passwordEncoder.encode(requestDto.getPassword());
 
-        User user = new User(requestDto, enPassword);
+        User user = new User(username,nickname,enPassword);
         userRepository.save(user); // DB 저장
+
     }
 
     public User login(String username, String password) {

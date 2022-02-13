@@ -24,9 +24,14 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public User(SignupRequestDto requestDto, String enPassword) {
-        this.nickname = requestDto.getNickname();
-        this.username = requestDto.getUsername();
+//    public User(SignupRequestDto requestDto, String enPassword) {
+//        this.username = requestDto.getUsername();
+//        this.nickname = requestDto.getNickname();
+//        this.password = enPassword;
+//    }
+    public User(String username, String nickname, String enPassword) {
+        this.username = username;
+        this.nickname = nickname;
         this.password = enPassword;
     }
 }
