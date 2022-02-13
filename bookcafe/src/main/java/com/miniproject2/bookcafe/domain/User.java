@@ -16,7 +16,7 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String username;
 
     @Column(nullable = false, unique = true)
     private String nickname;
@@ -26,7 +26,7 @@ public class User {
 
     public User(SignupRequestDto requestDto, String enPassword) {
         this.nickname = requestDto.getNickname();
-        this.email = requestDto.getEmail();
+        this.username = requestDto.getUsername();
         this.password = enPassword;
     }
 }
