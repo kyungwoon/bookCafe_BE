@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommentsResponseDto {
+public class CommentResponseDto {
 
     private Long commentId;
     private Long moimId;
@@ -18,7 +18,7 @@ public class CommentsResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public CommentsResponseDto(Long commentId, Long moimId, LocalDateTime createdAt, LocalDateTime modifiedAt, String nickname, String comment) {
+    public CommentResponseDto(Long commentId, Long moimId, LocalDateTime createdAt, LocalDateTime modifiedAt, String nickname, String comment) {
         this.commentId = commentId;
         this.moimId = moimId;
         this.createdAt = createdAt;
@@ -27,4 +27,3 @@ public class CommentsResponseDto {
         this.comment = comment;
     }
 }
-
