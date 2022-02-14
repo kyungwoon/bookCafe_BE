@@ -31,11 +31,12 @@ public class CommentService {
         for (Comment comment : comments) {
             CommentResponseDto commentResponseDto = new CommentResponseDto(
                     comment.getCommentId(),
-                    comment.getComment(),
+                    comment.getMoimId(),
                     comment.getCreatedAt(),
                     comment.getModifiedAt(),
                     comment.getNickname(),
-                    comment.getMoimId()
+                    comment.getComment()
+
             );
             commentResponseDtos.add(commentResponseDto);
         }
@@ -73,11 +74,11 @@ public class CommentService {
 
         return new CommentResponseDto(
                 comment.getCommentId(),
-                comment.getComment(),
+                comment.getMoimId(),
                 comment.getCreatedAt(),
                 comment.getModifiedAt(),
                 comment.getNickname(),
-                comment.getMoimId()
+                comment.getComment()
         );
     }
 }

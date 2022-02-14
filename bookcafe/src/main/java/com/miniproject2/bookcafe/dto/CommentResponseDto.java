@@ -12,19 +12,18 @@ import java.time.LocalDateTime;
 public class CommentResponseDto {
 
     private Long commentId;
+    private Long moimId;
     private String nickname;
     private String comment;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private Long moimId;
 
-
-    public CommentResponseDto(Long commentId, String comment, LocalDateTime createdAt, LocalDateTime modifiedAt, String nickname, Long moimId) {
+    public CommentResponseDto(Long commentId, Long moimId, LocalDateTime createdAt, LocalDateTime modifiedAt, String nickname, String comment) {
         this.commentId = commentId;
+        this.moimId = moimId;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         this.nickname = nickname;
         this.comment = comment;
-        this.moimId = moimId;
     }
 }
