@@ -1,64 +1,168 @@
 package com.miniproject2.bookcafe.security;
 
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+
+import com.miniproject2.bookcafe.security.filter.FormLoginFilter;
+import com.miniproject2.bookcafe.security.filter.JwtAuthFilter;
+import com.miniproject2.bookcafe.security.jwt.HeaderTokenExtractor;
+import com.miniproject2.bookcafe.security.provider.FormLoginAuthProvider;
+import com.miniproject2.bookcafe.security.provider.JWTAuthProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
-@AllArgsConstructor
-@EnableWebSecurity
+@EnableWebSecurity // 스프링 Security 지원을 가능하게 함
+@EnableGlobalMethodSecurity(securedEnabled = true) // @Secured 어노테이션 활성화
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    //JWT 부분 시작
+//    private final JwtTokenProvider jwtTokenProvider;
+    private final JWTAuthProvider jwtAuthProvider;
+    private final HeaderTokenExtractor headerTokenExtractor;
 
-    // 암호화에 필요한 PasswordEncoder Bean 등록
+    public WebSecurityConfig(
+            JWTAuthProvider jwtAuthProvider,
+            HeaderTokenExtractor headerTokenExtractor
+//            JwtTokenProvider jwtTokenProvider
+    ) {
+        this.jwtAuthProvider = jwtAuthProvider;
+        this.headerTokenExtractor = headerTokenExtractor;
+//        this.jwtTokenProvider = jwtTokenProvider;
+    }
+    //JWT부분 종료
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    public BCryptPasswordEncoder encodePassword() {
+        return new BCryptPasswordEncoder();
     }
 
-    // authenticationManager를 Bean 등록
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) {
+        auth
+                .authenticationProvider(formLoginAuthProvider())
+                .authenticationProvider(jwtAuthProvider);
+    }
+
+//    @Override
+//    public void configure(WebSecurity web) {
+//    // h2-console 사용에 대한 허용 (CSRF, FrameOptions 무시)
+//        web
+//                .ignoring()
+//                .antMatchers("/h2-console/**");
+//    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.httpBasic().disable()
+                .csrf()
+                .disable()
+                .authorizeRequests()
+                .antMatchers();
+
+        http
+                .cors()
+                .and()
+                .csrf()
+                .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.headers().frameOptions().disable();
+
+        /* 1.
+         * UsernamePasswordAuthenticationFilter 이전에 FormLoginFilter, JwtFilter 를 등록합니다.
+         * FormLoginFilter : 로그인 인증을 실시합니다.
+         * JwtFilter       : 서버에 접근시 JWT 확인 후 인증을 실시합니다.
+         */
+        http
+                .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.authorizeRequests()
+                // 회원 관리 처리 API 전부를 login 없이 허용
+                // 그 외 어떤 요청이든 '인증'
+                .anyRequest()
+                .permitAll()
+                .and()
+                // [로그아웃 기능]
+                .logout()
+                // 로그아웃 요청 처리 URL
+                .logoutUrl("/user/logout")
+                .permitAll();
+    }
+
+    @Bean
+    public FormLoginFilter formLoginFilter() throws Exception {
+        FormLoginFilter formLoginFilter = new FormLoginFilter(authenticationManager());
+        formLoginFilter.setFilterProcessesUrl("/user/login");
+        formLoginFilter.setAuthenticationSuccessHandler(formLoginSuccessHandler());
+        formLoginFilter.afterPropertiesSet();
+        return formLoginFilter;
+    }
+
+    @Bean
+    public FormLoginSuccessHandler formLoginSuccessHandler() {
+        return new FormLoginSuccessHandler();
+    }
+
+    @Bean
+    public FormLoginAuthProvider formLoginAuthProvider() {
+        return new FormLoginAuthProvider(encodePassword());
+    }
+
+    private JwtAuthFilter jwtFilter() throws Exception {
+        List<String> skipPathList = new ArrayList<>();
+
+        // Static 정보 접근 허용
+//        skipPathList.add("GET,/images/**");
+//        skipPathList.add("GET,/css/**");
+
+        // h2-console 허용
+//        skipPathList.add("GET,/h2-console/**");
+//        skipPathList.add("POST,/h2-console/**");
+        // 회원 관리 API 허용
+        skipPathList.add("GET,/user/**");
+        skipPathList.add("POST,/user/signup");
+        skipPathList.add("POST,/user/login");
+        skipPathList.add("GET,/image/**");
+        skipPathList.add("GET,/");
+        // Swagger 허용
+//        skipPathList.add("GET,/swagger-ui.html");
+//        skipPathList.add("GET,/swagger-resources/**");
+//        skipPathList.add("GET,/webjars/springfox-swagger-ui/**");
+//        skipPathList.add("GET,/v2/api-docs");
+
+//        skipPathList.add("GET,/favicon.ico");
+
+        FilterSkipMatcher matcher = new FilterSkipMatcher(
+                skipPathList,
+                "/**"
+        );
+
+        JwtAuthFilter filter = new JwtAuthFilter(
+                matcher,
+                headerTokenExtractor
+        );
+        filter.setAuthenticationManager(super.authenticationManagerBean());
+
+        return filter;
+    }
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
-    @Override public void configure(WebSecurity web) throws Exception
-    { web.ignoring().antMatchers("/h2-console/**"); }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // 필터 등록
-        http.httpBasic().disable() // REST API만을 고려, 기본 설정 해제
-                .csrf().disable() // csrf 사용 X
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                // 토큰 기반 인증이므로 세션도 사용 X
-
-                .and()
-                .authorizeRequests()
-                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/images/**").permitAll()
-                .antMatchers("/css/**").permitAll()
-                .antMatchers("/user/**").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/").permitAll()
-                .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class);
-
-    }
 }
+
