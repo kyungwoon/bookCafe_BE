@@ -1,8 +1,7 @@
 package com.miniproject2.bookcafe.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.miniproject2.bookcafe.dto.CommentRequestDto;
-
-import com.miniproject2.bookcafe.dto.CommentResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,8 +18,6 @@ public class Comment extends Timestamped{
     @Id
     private Long commentId;
 
-    @Column(nullable = false)
-    private Long moimId;
 
     @Column(nullable = false)
     private String nickname;
@@ -28,17 +25,17 @@ public class Comment extends Timestamped{
     @Column(nullable = false)
     private String comment;
 
-    public Comment(CommentRequestDto commentRequestDto, Long moimId) {
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "MOIM_ID")
+    private Moim moim;
+
+
+    public Comment(CommentRequestDto commentRequestDto, Moim moim) {
         this.comment = commentRequestDto.getComment();
         this.nickname = commentRequestDto.getNickname();
-//        this.commentId = commentRequestDto.getCommentId();
-        this.moimId = moimId;
+        this.moim = moim;
     }
 
-    public Comment(CommentResponseDto commentResponseDto) {
-        this.comment = commentResponseDto.getComment();
-        this.nickname = commentResponseDto.getNickname();
-        this.commentId = commentResponseDto.getCommentId();
-        this.moimId = commentResponseDto.getMoimId();
-    }
+
 }

@@ -76,7 +76,6 @@ public class MoimService {
     }
 
     private List<MoimMember> getMoimMembers(Long moimId) {
-
         return moimMemberRepository.findAllByMoimId(moimId);
     }
 

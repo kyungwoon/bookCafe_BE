@@ -1,11 +1,13 @@
 package com.miniproject2.bookcafe.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.miniproject2.bookcafe.dto.MoimRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -41,6 +43,10 @@ public class Moim extends Timestamped {
 
     @Column(nullable = false)
     private String bookUrl;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "moim")
+    List<Comment> comments;
 
     public Moim(MoimRequestDto requestDto){
         this.title = requestDto.getTitle();
