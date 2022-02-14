@@ -42,8 +42,7 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
         String tokenPayload = request.getHeader("Authorization");
         System.out.println("request Authorization header : " + tokenPayload + " / " + (tokenPayload == null?"null 토큰.":"값이 존재하는 토큰."));
         if (tokenPayload == null) {
-//            response.sendRedirect("/user/loginView");
-            response.sendError(400, "유효하지 않은 토큰입니다.");
+            response.sendRedirect("/user/login");
             return null;
         }
 
