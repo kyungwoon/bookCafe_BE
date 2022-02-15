@@ -21,8 +21,21 @@ public class MoimMember{
     @Column(nullable = false)
     private String nickname;
 
+//    @ManyToOne
+//    @JoinColumn(name = "MOIM_ID")
+//    private Moim moim;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "USER_ID")
+//    private User user;
+
     public MoimMember(MoimMemberRequestDto requestDto){
         this.moimId = requestDto.getMoimId();
         this.nickname = requestDto.getNickname();
     }
+
+//    public MoimMember(Moim moim, User user){
+//        this.moim = moim;
+//        this.user = user;
+//    }
 }

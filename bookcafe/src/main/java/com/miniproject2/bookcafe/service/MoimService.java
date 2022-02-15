@@ -55,7 +55,7 @@ public class MoimService {
     @Transactional
     public Long update(Long moimId, MoimRequestDto requestDto){
         Moim moim =  moimRepository.findById(moimId).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+                () -> new IllegalArgumentException("모임이 존재하지 않습니다.")
         );
         moim.update(requestDto);
         return moimId;
@@ -76,7 +76,6 @@ public class MoimService {
         for(MoimMember moimMember : moimMemberList){
             joinMembers.add(moimMember.getNickname());
         }
-
         return new MoimResponseDto(moim.get(0), joinMembers);
     }
 
