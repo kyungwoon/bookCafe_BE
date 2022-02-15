@@ -19,7 +19,7 @@ public class UserDetailsImpl implements UserDetails {
         return user;
     }
 
-    // nickname Impl 추가
+
     public String getNickname() {
         return user.getNickname();
     }
