@@ -26,21 +26,16 @@ import java.util.List;
 @EnableGlobalMethodSecurity(securedEnabled = true) // @Secured 어노테이션 활성화
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //JWT 부분 시작
-//    private final JwtTokenProvider jwtTokenProvider;
     private final JWTAuthProvider jwtAuthProvider;
     private final HeaderTokenExtractor headerTokenExtractor;
 
     public WebSecurityConfig(
             JWTAuthProvider jwtAuthProvider,
             HeaderTokenExtractor headerTokenExtractor
-//            JwtTokenProvider jwtTokenProvider
     ) {
         this.jwtAuthProvider = jwtAuthProvider;
         this.headerTokenExtractor = headerTokenExtractor;
-//        this.jwtTokenProvider = jwtTokenProvider;
     }
-    //JWT부분 종료
 
     @Bean
     public BCryptPasswordEncoder encodePassword() {
@@ -123,26 +118,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthFilter jwtFilter() throws Exception {
         List<String> skipPathList = new ArrayList<>();
 
-        // Static 정보 접근 허용
-//        skipPathList.add("GET,/images/**");
-//        skipPathList.add("GET,/css/**");
-
-        // h2-console 허용
-//        skipPathList.add("GET,/h2-console/**");
-//        skipPathList.add("POST,/h2-console/**");
         // 회원 관리 API 허용
         skipPathList.add("GET,/user/**");
         skipPathList.add("POST,/user/signup");
         skipPathList.add("POST,/user/login");
         skipPathList.add("GET,/image/**");
         skipPathList.add("GET,/");
-        // Swagger 허용
-//        skipPathList.add("GET,/swagger-ui.html");
-//        skipPathList.add("GET,/swagger-resources/**");
-//        skipPathList.add("GET,/webjars/springfox-swagger-ui/**");
-//        skipPathList.add("GET,/v2/api-docs");
-
-//        skipPathList.add("GET,/favicon.ico");
 
         FilterSkipMatcher matcher = new FilterSkipMatcher(
                 skipPathList,
