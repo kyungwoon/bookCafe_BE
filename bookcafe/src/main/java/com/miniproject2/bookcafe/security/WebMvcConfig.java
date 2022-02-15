@@ -23,14 +23,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("*")
+                .allowedHeaders("*")
+                .exposedHeaders(HttpHeaders.AUTHORIZATION)
                 .allowedMethods(
                         HttpMethod.GET.name(),
                         HttpMethod.HEAD.name(),
                         HttpMethod.POST.name(),
                         HttpMethod.PUT.name(),
                         HttpMethod.DELETE.name());
-
-
-
     }
 }

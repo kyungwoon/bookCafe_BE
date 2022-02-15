@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.miniproject2.bookcafe.dto.MoimRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 public class Moim extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,9 +46,14 @@ public class Moim extends Timestamped {
     @Column(nullable = false)
     private String bookUrl;
 
+//  https://bcp0109.tistory.com/332 : 양방향 참조 엔티티 삭제 방법
     @JsonManagedReference
-    @OneToMany(mappedBy = "moim")
+    @OneToMany(mappedBy = "moim", orphanRemoval = true)
     List<Comment> comments;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "moim", orphanRemoval = true)
+    List<MoimMember> moimMembers;
 
     public Moim(MoimRequestDto requestDto){
         this.title = requestDto.getTitle();
@@ -59,7 +66,6 @@ public class Moim extends Timestamped {
         this.bookUrl = requestDto.getBookUrl();
         this.imageUrl = requestDto.getImageUrl();
     }
-
 
     public void update(MoimRequestDto requestDto){
         this.title = requestDto.getTitle();
