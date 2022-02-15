@@ -25,7 +25,7 @@ public class MoimResponseDto {
     private List<String> moimMembers;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private List<Comment> comments;
+//    private List<Comment> comments;
 
 
     public MoimResponseDto(Moim moim,List<String> moimMembers){
@@ -42,7 +42,7 @@ public class MoimResponseDto {
         this.moimMembers = moimMembers;
         this.createdAt = moim.getCreatedAt();
         this.modifiedAt = moim.getModifiedAt();
-        this.comments = moim.getComments();
+//        this.comments = moim.getComments();
     }
 
 

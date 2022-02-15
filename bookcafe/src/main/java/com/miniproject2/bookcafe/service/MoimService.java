@@ -33,7 +33,7 @@ public class MoimService {
     }
 
     public List<MoimResponseDto> getMoims(){
-        List<Moim> moimList= moimRepository.findAllByOrderByModifiedAtDesc();
+        List<Moim> moimList= moimRepository.findAllByOrderByCreatedAtDesc();
         List<MoimResponseDto> moimResponseDtos = new ArrayList<>();
 
         for(Moim moim : moimList) {

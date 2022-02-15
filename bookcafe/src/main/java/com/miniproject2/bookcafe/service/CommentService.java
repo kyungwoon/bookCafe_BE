@@ -10,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -38,22 +37,24 @@ public class CommentService {
 
 
     // Id에 해당하는 댓글 전체 get
-    public List<Comment> readComment(Long moimId) {
+    public List<CommentResponseDto> readComment(Long moimId) {
 //        List<Comment> comments = commentRepository.findAllByMoimId(moimId);
-//        List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
+        List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
 
         Moim moim= moimRepository.findById(moimId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 모임입니다."));
-
         List<Comment> comments = moim.getComments();
 
-//        for (Comment comment : comments) {
-//                    CommentResponseDto commentResponseDto =
-//                            new CommentResponseDto(comment, moim);
-//                    System.out.println(commentResponseDto.getComment());
-//            commentResponseDtos.add(commentResponseDto);
-//        }
-        return comments;
+        for (Comment comment : comments) {
+                    CommentResponseDto commentResponseDto =
+                            new CommentResponseDto(comment);
+            commentResponseDtos.add(commentResponseDto);
+        }
+
+//       https://zangzangs.tistory.com/60 : DTO 정렬하기
+        return commentResponseDtos.stream().
+                sorted(Comparator.comparing(CommentResponseDto::getCreatedAt).reversed()).
+                collect(Collectors.toList());
     }
 
 

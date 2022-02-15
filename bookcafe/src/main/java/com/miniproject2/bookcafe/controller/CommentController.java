@@ -28,7 +28,7 @@ public class CommentController {
 
     // 댓글 조회
     @GetMapping("/comments/{moimId}")
-    public List<Comment> readComment(@PathVariable Long moimId) {
+    public List<CommentResponseDto> readComment(@PathVariable Long moimId) {
         return commentService.readComment(moimId);
     }
 
