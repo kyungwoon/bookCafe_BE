@@ -1,11 +1,14 @@
 package com.miniproject2.bookcafe.controller;
 
+import com.miniproject2.bookcafe.domain.User;
 import com.miniproject2.bookcafe.dto.SignupRequestDto;
+import com.miniproject2.bookcafe.dto.UserResponseDto;
 import com.miniproject2.bookcafe.repository.UserRepository;
+import com.miniproject2.bookcafe.security.UserDetailsImpl;
 import com.miniproject2.bookcafe.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -15,7 +18,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
-//    private final JwtTokenProvider jwtTokenProvider;
+    //    private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 
     //회원가입
@@ -23,6 +26,16 @@ public class UserController {
     public void registerUser(@RequestBody SignupRequestDto requestDto) {
         userService.registerUser(requestDto);
     }
+
+    @PostMapping("user/islogin")
+    public UserResponseDto islogin(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        System.out.println("username : " + user.getUsername());
+        System.out.println("username : " + user.getNickname());
+        return new UserResponseDto(user.getUsername(), user.getNickname());
+    }
+
+
 //    @GetMapping("/user/login")
 //    public String login(){
 //        return "login";
