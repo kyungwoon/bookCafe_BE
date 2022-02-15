@@ -67,7 +67,6 @@ public class Moim extends Timestamped {
         this.imageUrl = requestDto.getImageUrl();
     }
 
-
     public void update(MoimRequestDto requestDto){
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();

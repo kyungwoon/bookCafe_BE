@@ -15,18 +15,6 @@ public class MoimMember{
     @Id
     private Long memberId;
 
-//    @Column
-//    private Long moimId;
-//
-//    @Column(nullable = false)
-//    private String nickname;
-
-
-//    public MoimMember(MoimMemberRequestDto requestDto){
-//        this.moimId = requestDto.getMoimId();
-//        this.nickname = requestDto.getNickname();
-//    }
-
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "MOIM_ID")

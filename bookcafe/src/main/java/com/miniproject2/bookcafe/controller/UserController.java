@@ -1,5 +1,6 @@
 package com.miniproject2.bookcafe.controller;
 
+import com.miniproject2.bookcafe.domain.User;
 import com.miniproject2.bookcafe.dto.SignupRequestDto;
 import com.miniproject2.bookcafe.dto.UserResponseDto;
 import com.miniproject2.bookcafe.repository.UserRepository;
@@ -28,8 +29,12 @@ public class UserController {
     }
 
     @PostMapping("/user/islogin")
-    public UserResponseDto islogin(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return new UserResponseDto(userDetails);
+    public UserResponseDto checklogin(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if(userDetails != null){
+            return new UserResponseDto(userDetails.getUsername(), userDetails.getNickname());
+        }else{
+            return new UserResponseDto(null, null);
+        }
     }
 }
 
