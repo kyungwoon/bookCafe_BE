@@ -2,6 +2,7 @@ package com.miniproject2.bookcafe.service;
 
 import com.miniproject2.bookcafe.domain.Moim;
 import com.miniproject2.bookcafe.domain.MoimMember;
+import com.miniproject2.bookcafe.domain.User;
 import com.miniproject2.bookcafe.dto.MoimRequestDto;
 import com.miniproject2.bookcafe.dto.MoimResponseDto;
 import com.miniproject2.bookcafe.repository.MoimMemberRepository;
@@ -37,16 +38,16 @@ public class MoimService {
         List<MoimResponseDto> moimResponseDtos = new ArrayList<>();
 
         for(Moim moim : moimList) {
-            Long moimId = moim.getMoimId();
-
-            List<MoimMember> moimMemberList = getMoimMembers(moimId);
-
-            List<String> joinMembers = new ArrayList<>();
-            for(MoimMember moimMember : moimMemberList){
-                joinMembers.add(moimMember.getNickname());
+            List<MoimMember> moimMemberList = moim.getMoimMembers();
+            if (moimMemberList != null) {
+                List<String> joinMembers = new ArrayList<>();
+                for (MoimMember moimMember : moimMemberList) {
+                    joinMembers.add(moimMember.getUser().getNickname());
+                }
+                MoimResponseDto moimResponseDto =
+                        new MoimResponseDto(moim, joinMembers);
+                moimResponseDtos.add(moimResponseDto);
             }
-            MoimResponseDto moimResponseDto = new MoimResponseDto(moim, joinMembers);
-            moimResponseDtos.add(moimResponseDto);
         }
         return moimResponseDtos;
     }
@@ -64,23 +65,24 @@ public class MoimService {
 
 
     public MoimResponseDto getMoimDetails(Long moimId) {
-        List<Moim> moim= moimRepository.findAllById(Collections.singleton(moimId));
+//        List<Moim> moim= moimRepository.findAllById(Collections.singleton(moimId));
+//
+//        if(moim.size() == 0){
+//            throw new IllegalArgumentException("모임이 존재하지 않습니다.");
+//        }
 
-        if(moim.size() == 0){
-            throw new IllegalArgumentException("모임이 존재하지 않습니다.");
-        }
+        Moim moim = moimRepository.findById(moimId).orElseThrow(
+                () -> new IllegalArgumentException("모임이 존재하지 않습니다.")
+        );
 
-        List<MoimMember> moimMemberList = getMoimMembers(moimId);
+        List<MoimMember> moimMemberList = moim.getMoimMembers();
+//        List<MoimMember> moimMemberList = moimMemberRepository.findAllByMoim(moim);
+
         List<String> joinMembers = new ArrayList<>();
-
         for(MoimMember moimMember : moimMemberList){
-            joinMembers.add(moimMember.getNickname());
+            joinMembers.add(moimMember.getUser().getNickname());
         }
-        return new MoimResponseDto(moim.get(0), joinMembers);
-    }
-
-    private List<MoimMember> getMoimMembers(Long moimId) {
-        return moimMemberRepository.findAllByMoimId(moimId);
+        return new MoimResponseDto(moim, joinMembers);
     }
 
 

@@ -1,5 +1,7 @@
 package com.miniproject2.bookcafe.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.miniproject2.bookcafe.dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,9 +27,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<MoimMember> moimMembers;
-
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<MoimMember> moimMembers;
 
     public User(String username, String nickname, String enPassword) {
         this.username = username;

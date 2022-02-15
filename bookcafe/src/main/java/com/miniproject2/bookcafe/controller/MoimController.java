@@ -1,14 +1,15 @@
 package com.miniproject2.bookcafe.controller;
 
-import com.miniproject2.bookcafe.domain.Comment;
 import com.miniproject2.bookcafe.domain.Moim;
 import com.miniproject2.bookcafe.domain.MoimMember;
+import com.miniproject2.bookcafe.domain.User;
 import com.miniproject2.bookcafe.dto.MoimMemberRequestDto;
 import com.miniproject2.bookcafe.dto.MoimRequestDto;
 import com.miniproject2.bookcafe.dto.MoimResponseDto;
 import com.miniproject2.bookcafe.repository.CommentRepository;
 import com.miniproject2.bookcafe.repository.MoimMemberRepository;
 import com.miniproject2.bookcafe.repository.MoimRepository;
+import com.miniproject2.bookcafe.repository.UserRepository;
 import com.miniproject2.bookcafe.service.MoimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class MoimController {
     private final MoimRepository moimRepository;
     private final MoimService moimService;
     private final MoimMemberRepository moimMemberRepository;
-    private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
 
     // 모임 생성하기
     @PostMapping("/moims")
@@ -50,6 +51,7 @@ public class MoimController {
     // 상세 페이지 모임 불러오기
     @GetMapping("/moims/{moimId}")
     public MoimResponseDto getMoimDetails(@PathVariable Long moimId){
+
         return moimService.getMoimDetails(moimId);
     }
 
@@ -64,7 +66,11 @@ public class MoimController {
     // 모임 참가하기
     @PostMapping("/moims/join")
     public Moim participateMoim(@RequestBody MoimMemberRequestDto requestDto){
-        MoimMember moimMember = new MoimMember(requestDto);
+        Moim moim = moimRepository.findById(requestDto.getMoimId()).orElseThrow(
+                () -> new IllegalArgumentException("모임이 존재하지 않습니다.")
+        );
+        User user = userRepository.findByNickname(requestDto.getNickname());
+        MoimMember moimMember = new MoimMember(moim, user);
         moimMemberRepository.save(moimMember);
         return null;
     }
@@ -72,17 +78,33 @@ public class MoimController {
 
     // 모임 참가 취소하기
     @DeleteMapping("/moims/join")
-    public Moim deleteMoimMember(@RequestBody MoimMemberRequestDto requestDto){
-        MoimMember moimMember =
-                moimMemberRepository.findByMoimIdAndNickname(
-                        requestDto.getMoimId(), requestDto.getNickname());
-        if(moimMember == null){
-            throw new IllegalArgumentException("모임에 참가하지 않았습니다.");
-        }
+    public String deleteMoimMember(@RequestBody MoimMemberRequestDto requestDto){
+        Moim moim = moimRepository.findById(requestDto.getMoimId()).orElseThrow(
+                () -> new IllegalArgumentException("모임이 존재하지 않습니다.")
+        );
 
-        Long memberId = moimMember.getMemberId();
-        moimMemberRepository.deleteById(memberId);
-        return null;
+        List<MoimMember>moimMembers = moim.getMoimMembers();
+
+        for(MoimMember moimMember : moimMembers){
+            String deleteNickname = requestDto.getNickname();
+            String targetNickname = moimMember.getUser().getNickname();
+            if(deleteNickname.equals(targetNickname)){
+                System.out.println(deleteNickname);
+                System.out.println(targetNickname);
+                moimMemberRepository.deleteById(moimMember.getMemberId());
+                return "참가 취소 성공";
+            }
+        }
+//        User user = userRepository.findByNickname(requestDto.getNickname());
+//
+
+//        MoimMember moimMember =
+//                moimMemberRepository.findByMoimIdAndNickname(
+//                        requestDto.getMoimId(), requestDto.getNickname());
+//
+//        Long memberId = moimMember.getMemberId();
+//        moimMemberRepository.deleteById(memberId);
+        return "모임 참가 취소 성공";
     }
 
 }

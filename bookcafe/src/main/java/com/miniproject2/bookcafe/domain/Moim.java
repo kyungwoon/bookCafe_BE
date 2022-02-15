@@ -51,6 +51,10 @@ public class Moim extends Timestamped {
     @OneToMany(mappedBy = "moim", orphanRemoval = true)
     List<Comment> comments;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "moim", orphanRemoval = true)
+    List<MoimMember> moimMembers;
+
     public Moim(MoimRequestDto requestDto){
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();

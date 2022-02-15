@@ -1,6 +1,6 @@
 package com.miniproject2.bookcafe.domain;
 
-import com.miniproject2.bookcafe.dto.MoimMemberRequestDto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,27 +15,30 @@ public class MoimMember{
     @Id
     private Long memberId;
 
-    @Column
-    private Long moimId;
-
-    @Column(nullable = false)
-    private String nickname;
-
-//    @ManyToOne
-//    @JoinColumn(name = "MOIM_ID")
-//    private Moim moim;
+//    @Column
+//    private Long moimId;
 //
-//    @ManyToOne
-//    @JoinColumn(name = "USER_ID")
-//    private User user;
+//    @Column(nullable = false)
+//    private String nickname;
 
-    public MoimMember(MoimMemberRequestDto requestDto){
-        this.moimId = requestDto.getMoimId();
-        this.nickname = requestDto.getNickname();
-    }
 
-//    public MoimMember(Moim moim, User user){
-//        this.moim = moim;
-//        this.user = user;
+//    public MoimMember(MoimMemberRequestDto requestDto){
+//        this.moimId = requestDto.getMoimId();
+//        this.nickname = requestDto.getNickname();
 //    }
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "MOIM_ID")
+    private Moim moim;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User user;
+
+    public MoimMember(Moim moim, User user){
+        this.moim = moim;
+        this.user = user;
+    }
 }
