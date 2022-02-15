@@ -21,6 +21,7 @@ public class UserController {
     //회원가입
     @PostMapping("/user/signup")
     public void registerUser(@RequestBody SignupRequestDto requestDto) {
+
         userService.registerUser(requestDto);
     }
 //    @GetMapping("/user/login")

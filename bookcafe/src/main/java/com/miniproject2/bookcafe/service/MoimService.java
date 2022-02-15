@@ -65,6 +65,11 @@ public class MoimService {
 
     public MoimResponseDto getMoimDetails(Long moimId) {
         List<Moim> moim= moimRepository.findAllById(Collections.singleton(moimId));
+
+        if(moim.size() == 0){
+            throw new IllegalArgumentException("모임이 존재하지 않습니다.");
+        }
+
         List<MoimMember> moimMemberList = getMoimMembers(moimId);
         List<String> joinMembers = new ArrayList<>();
 
