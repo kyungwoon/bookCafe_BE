@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="MySQL" uuid="e49935fb-673e-433b-a2c3-fcd2a45ed0c7">
+    <data-source source="LOCAL" name="bookcafe" uuid="f7d379eb-6d89-4f69-b4ca-1833a0990a76">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://bookcafe.cxiar8d6cgw5.ap-northeast-2.rds.amazonaws.com :3306/bookcafe</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="bookcafe" uuid="23755a69-40ab-47e6-84b4-e23e01ec6187">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://bookcafe.cxiar8d6cgw5.ap-northeast-2.rds.amazonaws.com :3306</jdbc-url>
+      <jdbc-url>jdbc:mysql://springboot-db2.cf0ijdzgtiko.ap-northeast-2.rds.amazonaws.com:3306</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

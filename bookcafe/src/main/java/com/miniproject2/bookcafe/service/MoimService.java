@@ -5,12 +5,10 @@ import com.miniproject2.bookcafe.domain.MoimMember;
 import com.miniproject2.bookcafe.domain.User;
 import com.miniproject2.bookcafe.dto.MoimRequestDto;
 import com.miniproject2.bookcafe.dto.MoimResponseDto;
-import com.miniproject2.bookcafe.dto.UserRequestDto;
 import com.miniproject2.bookcafe.repository.MoimRepository;
 import com.miniproject2.bookcafe.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -46,10 +44,7 @@ public class MoimService {
         for(Moim moim : moimList) {
             List<MoimMember> moimMemberList = moim.getMoimMembers();
             if (moimMemberList != null) {
-                List<String> joinMembers = new ArrayList<>();
-                for (MoimMember moimMember : moimMemberList) {
-                    joinMembers.add(moimMember.getUser().getNickname());
-                }
+                List<String> joinMembers = getJoinMembers(moimMemberList);
                 MoimResponseDto moimResponseDto =
                         new MoimResponseDto(moim, joinMembers);
                 moimResponseDtos.add(moimResponseDto);
@@ -57,6 +52,8 @@ public class MoimService {
         }
         return moimResponseDtos;
     }
+
+
 
 
     @Transactional
@@ -76,28 +73,38 @@ public class MoimService {
         );
 
         List<MoimMember> moimMemberList = moim.getMoimMembers();
-        List<String> joinMembers = new ArrayList<>();
-        for(MoimMember moimMember : moimMemberList){
-            joinMembers.add(moimMember.getUser().getNickname());
-        }
+        List<String> joinMembers = getJoinMembers(moimMemberList);
         return new MoimResponseDto(moim, joinMembers);
     }
 
 
-    public List<MoimResponseDto> getUserMoims(@RequestBody UserRequestDto requestDto){
-        User user = userRepository.findByNickname(requestDto.getNickname());
+    public List<MoimResponseDto> getUserMoims(String nickname){
+        System.out.println("nickname : "+ nickname);
+        User user = userRepository.findByNickname(nickname);
         List<MoimMember> moimMembers = user.getMoimMembers();
 
         List<MoimResponseDto> moimResponseDtos = new ArrayList<>();
         for (MoimMember moimMember : moimMembers){
+
             Moim moim = moimMember.getMoim();
-            MoimResponseDto responseDto = new MoimResponseDto(moim);
+            List<MoimMember> moimMemberList = moim.getMoimMembers();
+            List<String> joinMembers = getJoinMembers(moimMemberList);
+            MoimResponseDto responseDto = new MoimResponseDto(moim, joinMembers);
             moimResponseDtos.add(responseDto);
         }
+
         return moimResponseDtos.stream().
                 sorted(Comparator.comparing(MoimResponseDto::getCreatedAt).reversed()).
                 collect(Collectors.toList());
     }
 
+
+    private List<String> getJoinMembers(List<MoimMember> moimMemberList) {
+        List<String> joinMembers = new ArrayList<>();
+        for (MoimMember moimMember : moimMemberList) {
+            joinMembers.add(moimMember.getUser().getNickname());
+        }
+        return joinMembers;
+    }
 
 }

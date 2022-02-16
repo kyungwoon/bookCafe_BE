@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class
-UserController {
+public class UserController {
 
     private final UserService userService;
 
@@ -26,11 +25,11 @@ UserController {
     }
 
 
-  @PostMapping("/islogin")
+    @PostMapping("/islogin")
     public UserResponseDto islogin(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         System.out.println("username : " + user.getUsername());
-        System.out.println("username : " + user.getNickname());
+        System.out.println("nickname : " + user.getNickname());
         return new UserResponseDto(user.getUsername(), user.getNickname());
     }
 

@@ -78,4 +78,5 @@ public class Moim extends Timestamped {
         this.bookUrl = requestDto.getBookUrl();
         this.imageUrl = requestDto.getImageUrl();
     }
+
 }

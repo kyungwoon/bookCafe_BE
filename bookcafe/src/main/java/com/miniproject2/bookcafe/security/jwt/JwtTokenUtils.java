@@ -6,7 +6,6 @@ import com.miniproject2.bookcafe.security.UserDetailsImpl;
 
 import java.util.Date;
 
-
 public final class JwtTokenUtils {
 
     private static final int SEC = 1;

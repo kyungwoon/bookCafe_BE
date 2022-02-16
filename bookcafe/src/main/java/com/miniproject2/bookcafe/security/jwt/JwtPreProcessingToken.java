@@ -14,7 +14,6 @@ public class JwtPreProcessingToken extends UsernamePasswordAuthenticationToken {
         );
     }
 
-
     public JwtPreProcessingToken(String token) {
         this(
                 token,

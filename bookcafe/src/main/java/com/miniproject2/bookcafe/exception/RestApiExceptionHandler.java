@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.NoSuchElementException;
 
-
 // exception 발생시 에러와 status를 보내준다.
 @RestControllerAdvice
 public class RestApiExceptionHandler {
