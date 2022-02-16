@@ -1,6 +1,6 @@
 package com.miniproject2.bookcafe.domain;
 
-import com.miniproject2.bookcafe.dto.SignupRequestDto;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
