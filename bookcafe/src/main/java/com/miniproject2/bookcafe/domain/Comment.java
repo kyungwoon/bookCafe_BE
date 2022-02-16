@@ -29,7 +29,6 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "MOIM_ID")
     private Moim moim;
 
-
     public Comment(CommentRequestDto commentRequestDto, Moim moim) {
         this.comment = commentRequestDto.getComment();
         this.nickname = commentRequestDto.getNickname();

@@ -6,7 +6,7 @@ import com.miniproject2.bookcafe.domain.User;
 import com.miniproject2.bookcafe.dto.MoimMemberRequestDto;
 import com.miniproject2.bookcafe.dto.MoimRequestDto;
 import com.miniproject2.bookcafe.dto.MoimResponseDto;
-import com.miniproject2.bookcafe.repository.CommentRepository;
+import com.miniproject2.bookcafe.dto.UserRequestDto;
 import com.miniproject2.bookcafe.repository.MoimMemberRepository;
 import com.miniproject2.bookcafe.repository.MoimRepository;
 import com.miniproject2.bookcafe.repository.UserRepository;
@@ -95,18 +95,15 @@ public class MoimController {
                 return "참가 취소 성공";
             }
         }
-//        User user = userRepository.findByNickname(requestDto.getNickname());
-//
-
-//        MoimMember moimMember =
-//                moimMemberRepository.findByMoimIdAndNickname(
-//                        requestDto.getMoimId(), requestDto.getNickname());
-//
-//        Long memberId = moimMember.getMemberId();
-//        moimMemberRepository.deleteById(memberId);
         return "모임 참가 취소 성공";
     }
 
+
+    // 유저가 참가 신청한 모임 조회하기
+    @GetMapping("/moims/user")
+    public List<MoimResponseDto> getUserMoims(@RequestBody UserRequestDto requestDto){
+        return moimService.getUserMoims(requestDto);
+    }
 }
 
 

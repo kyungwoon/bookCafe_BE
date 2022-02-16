@@ -14,17 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class
+UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
-    //    private final JwtTokenProvider jwtTokenProvider;
-    private final PasswordEncoder passwordEncoder;
 
     //회원가입
     @PostMapping("/user/signup")
     public void registerUser(@RequestBody SignupRequestDto requestDto) {
-
         userService.registerUser(requestDto);
     }
 
@@ -36,6 +33,8 @@ public class UserController {
         System.out.println("username : " + user.getNickname());
         return new UserResponseDto(user.getUsername(), user.getNickname());
     }
+
 }
+
 
 

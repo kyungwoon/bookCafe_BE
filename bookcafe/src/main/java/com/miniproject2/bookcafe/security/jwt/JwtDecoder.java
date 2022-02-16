@@ -15,10 +15,7 @@ import static com.miniproject2.bookcafe.security.jwt.JwtTokenUtils.*;
 
 @Component
 public class JwtDecoder {
-
-
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-
     public String decodeUsername(String token) {
         DecodedJWT decodedJWT = isValidToken(token)
                 .orElseThrow(() -> new IllegalArgumentException("유효한 토큰이 아닙니다."));
@@ -35,7 +32,6 @@ public class JwtDecoder {
         String username = decodedJWT
                 .getClaim(CLAIM_USER_NAME)
                 .asString();
-
         return username;
     }
 

@@ -32,6 +32,7 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
         this.extractor = extractor;
     }
 
+
     @Override
     public Authentication attemptAuthentication(
             HttpServletRequest request,
