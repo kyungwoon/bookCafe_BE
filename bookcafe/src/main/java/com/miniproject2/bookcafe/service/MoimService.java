@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -33,20 +32,20 @@ public class MoimService {
     }
 
     public List<MoimResponseDto> getMoims(){
-        List<Moim> moimList= moimRepository.findAllByOrderByModifiedAtDesc();
+        List<Moim> moimList= moimRepository.findAllByOrderByCreatedAtDesc();
         List<MoimResponseDto> moimResponseDtos = new ArrayList<>();
 
         for(Moim moim : moimList) {
-            Long moimId = moim.getMoimId();
-
-            List<MoimMember> moimMemberList = getMoimMembers(moimId);
-
-            List<String> joinMembers = new ArrayList<>();
-            for(MoimMember moimMember : moimMemberList){
-                joinMembers.add(moimMember.getNickname());
+            List<MoimMember> moimMemberList = moim.getMoimMembers();
+            if (moimMemberList != null) {
+                List<String> joinMembers = new ArrayList<>();
+                for (MoimMember moimMember : moimMemberList) {
+                    joinMembers.add(moimMember.getUser().getNickname());
+                }
+                MoimResponseDto moimResponseDto =
+                        new MoimResponseDto(moim, joinMembers);
+                moimResponseDtos.add(moimResponseDto);
             }
-            MoimResponseDto moimResponseDto = new MoimResponseDto(moim, joinMembers);
-            moimResponseDtos.add(moimResponseDto);
         }
         return moimResponseDtos;
     }
@@ -55,7 +54,7 @@ public class MoimService {
     @Transactional
     public Long update(Long moimId, MoimRequestDto requestDto){
         Moim moim =  moimRepository.findById(moimId).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+                () -> new IllegalArgumentException("모임이 존재하지 않습니다.")
         );
         moim.update(requestDto);
         return moimId;
@@ -64,19 +63,24 @@ public class MoimService {
 
 
     public MoimResponseDto getMoimDetails(Long moimId) {
-        List<Moim> moim= moimRepository.findAllById(Collections.singleton(moimId));
-        List<MoimMember> moimMemberList = getMoimMembers(moimId);
+//        List<Moim> moim= moimRepository.findAllById(Collections.singleton(moimId));
+//
+//        if(moim.size() == 0){
+//            throw new IllegalArgumentException("모임이 존재하지 않습니다.");
+//        }
+
+        Moim moim = moimRepository.findById(moimId).orElseThrow(
+                () -> new IllegalArgumentException("모임이 존재하지 않습니다.")
+        );
+
+        List<MoimMember> moimMemberList = moim.getMoimMembers();
+//        List<MoimMember> moimMemberList = moimMemberRepository.findAllByMoim(moim);
+
         List<String> joinMembers = new ArrayList<>();
-
         for(MoimMember moimMember : moimMemberList){
-            joinMembers.add(moimMember.getNickname());
+            joinMembers.add(moimMember.getUser().getNickname());
         }
-
-        return new MoimResponseDto(moim.get(0), joinMembers);
-    }
-
-    private List<MoimMember> getMoimMembers(Long moimId) {
-        return moimMemberRepository.findAllByMoimId(moimId);
+        return new MoimResponseDto(moim, joinMembers);
     }
 
 

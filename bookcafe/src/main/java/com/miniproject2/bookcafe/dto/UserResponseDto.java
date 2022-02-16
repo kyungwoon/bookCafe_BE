@@ -11,9 +11,4 @@ public class UserResponseDto {
     private String username;
     private String nickname;
 
-
-//    public UserResponseDto(String userDetail){
-//        this.username = userDetail.getUsername();
-//        this.nickname = userDetail.getNickname();
-//    }
 }

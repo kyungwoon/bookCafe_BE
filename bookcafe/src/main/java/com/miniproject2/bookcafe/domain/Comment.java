@@ -18,7 +18,6 @@ public class Comment extends Timestamped{
     @Id
     private Long commentId;
 
-
     @Column(nullable = false)
     private String nickname;
 
@@ -36,6 +35,4 @@ public class Comment extends Timestamped{
         this.nickname = commentRequestDto.getNickname();
         this.moim = moim;
     }
-
-
 }

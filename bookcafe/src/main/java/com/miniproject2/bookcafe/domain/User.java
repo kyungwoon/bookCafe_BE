@@ -1,10 +1,11 @@
 package com.miniproject2.bookcafe.domain;
 
-import com.miniproject2.bookcafe.dto.SignupRequestDto;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -24,11 +25,10 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-//    public User(SignupRequestDto requestDto, String enPassword) {
-//        this.username = requestDto.getUsername();
-//        this.nickname = requestDto.getNickname();
-//        this.password = enPassword;
-//    }
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<MoimMember> moimMembers;
+
     public User(String username, String nickname, String enPassword) {
         this.username = username;
         this.nickname = nickname;

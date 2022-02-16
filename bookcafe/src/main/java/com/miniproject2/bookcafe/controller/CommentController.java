@@ -1,13 +1,13 @@
 package com.miniproject2.bookcafe.controller;
 
 
+import com.miniproject2.bookcafe.domain.Comment;
 import com.miniproject2.bookcafe.dto.CommentRequestDto;
+import com.miniproject2.bookcafe.dto.CommentResponseDto;
 import com.miniproject2.bookcafe.repository.CommentRepository;
 import com.miniproject2.bookcafe.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import com.miniproject2.bookcafe.domain.Comment;
-
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class CommentController {
 
     // 댓글 조회
     @GetMapping("/comments/{moimId}")
-    public List<Comment> readComment(@PathVariable Long moimId) {
+    public List<CommentResponseDto> readComment(@PathVariable Long moimId) {
         return commentService.readComment(moimId);
     }
 

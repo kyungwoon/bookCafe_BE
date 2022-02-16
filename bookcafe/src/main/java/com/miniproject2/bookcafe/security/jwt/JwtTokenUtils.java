@@ -1,8 +1,8 @@
 package com.miniproject2.bookcafe.security.jwt;
 
-import com.miniproject2.bookcafe.security.UserDetailsImpl;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.miniproject2.bookcafe.security.UserDetailsImpl;
 
 import java.util.Date;
 
