@@ -94,15 +94,6 @@ public class MoimController {
                 return "참가 취소 성공";
             }
         }
-//        User user = userRepository.findByNickname(requestDto.getNickname());
-//
-
-//        MoimMember moimMember =
-//                moimMemberRepository.findByMoimIdAndNickname(
-//                        requestDto.getMoimId(), requestDto.getNickname());
-//
-//        Long memberId = moimMember.getMemberId();
-//        moimMemberRepository.deleteById(memberId);
         return "모임 참가 취소 성공";
     }
 

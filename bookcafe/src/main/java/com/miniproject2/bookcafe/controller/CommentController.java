@@ -2,6 +2,7 @@ package com.miniproject2.bookcafe.controller;
 
 
 import com.miniproject2.bookcafe.dto.CommentRequestDto;
+import com.miniproject2.bookcafe.dto.CommentResponseDto;
 import com.miniproject2.bookcafe.repository.CommentRepository;
 import com.miniproject2.bookcafe.service.CommentService;
 import lombok.RequiredArgsConstructor;

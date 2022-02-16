@@ -9,7 +9,7 @@ import com.miniproject2.bookcafe.security.UserDetailsImpl;
 import lombok.Getter;
 import lombok.Setter;
 
-@AllArgsConstructor
+
 @Setter
 @Getter
 public class UserResponseDto {
