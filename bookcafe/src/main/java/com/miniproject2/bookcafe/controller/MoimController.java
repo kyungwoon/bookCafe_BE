@@ -6,6 +6,7 @@ import com.miniproject2.bookcafe.domain.User;
 import com.miniproject2.bookcafe.dto.MoimMemberRequestDto;
 import com.miniproject2.bookcafe.dto.MoimRequestDto;
 import com.miniproject2.bookcafe.dto.MoimResponseDto;
+import com.miniproject2.bookcafe.repository.CommentRepository;
 import com.miniproject2.bookcafe.repository.MoimMemberRepository;
 import com.miniproject2.bookcafe.repository.MoimRepository;
 import com.miniproject2.bookcafe.repository.UserRepository;

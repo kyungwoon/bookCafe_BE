@@ -8,6 +8,7 @@ import com.miniproject2.bookcafe.security.provider.FormLoginAuthProvider;
 import com.miniproject2.bookcafe.security.provider.JWTAuthProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -124,6 +125,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("POST,/user/login");
         skipPathList.add("GET,/image/**");
         skipPathList.add("GET,/");
+        skipPathList.add("GET,/moims");
+        skipPathList.add("GET,/moims/**");
+        skipPathList.add("GET,/comments/**");
+
         skipPathList.add("GET,/moims");
         skipPathList.add("GET,/moims/**");
         skipPathList.add("GET,/comments/**");

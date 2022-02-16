@@ -2,6 +2,7 @@ package com.miniproject2.bookcafe.service;
 
 import com.miniproject2.bookcafe.domain.Moim;
 import com.miniproject2.bookcafe.domain.MoimMember;
+import com.miniproject2.bookcafe.domain.User;
 import com.miniproject2.bookcafe.dto.MoimRequestDto;
 import com.miniproject2.bookcafe.dto.MoimResponseDto;
 import com.miniproject2.bookcafe.repository.MoimMemberRepository;
