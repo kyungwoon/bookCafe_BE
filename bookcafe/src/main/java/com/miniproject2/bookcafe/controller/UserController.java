@@ -24,12 +24,11 @@ public class UserController {
     //회원가입
     @PostMapping("/user/signup")
     public void registerUser(@RequestBody SignupRequestDto requestDto) {
-
         userService.registerUser(requestDto);
     }
 
 
-    @PostMapping("/islogin")
+  @PostMapping("/islogin")
     public UserResponseDto islogin(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         System.out.println("username : " + user.getUsername());
@@ -37,5 +36,6 @@ public class UserController {
         return new UserResponseDto(user.getUsername(), user.getNickname());
     }
 }
+
 
 
