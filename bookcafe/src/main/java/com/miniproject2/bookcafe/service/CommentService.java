@@ -28,23 +28,23 @@ public class CommentService {
     }
 
     //댓글 작성
-    public String writeComment(CommentRequestDto requestDto, Long moimId) {
+    public Comment writeComment(CommentRequestDto requestDto, Long moimId) {
         Moim moim = moimRepository.findById(moimId).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다"));
 
         Comment comment = new Comment(requestDto, moim);
         commentRepository.save(comment);
-        return requestDto.getComment();
+        return comment;
     }
 
 
     // Id에 해당하는 댓글 전체 get
     public List<CommentResponseDto> readComment(Long moimId) {
-//        List<Comment> comments = commentRepository.findAllByMoimId(moimId);
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
 
         Moim moim= moimRepository.findById(moimId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 모임입니다."));
+
         List<Comment> comments = moim.getComments();
 
         for (Comment comment : comments) {

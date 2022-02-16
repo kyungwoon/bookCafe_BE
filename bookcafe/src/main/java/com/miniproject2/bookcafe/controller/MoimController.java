@@ -6,6 +6,7 @@ import com.miniproject2.bookcafe.domain.User;
 import com.miniproject2.bookcafe.dto.MoimMemberRequestDto;
 import com.miniproject2.bookcafe.dto.MoimRequestDto;
 import com.miniproject2.bookcafe.dto.MoimResponseDto;
+import com.miniproject2.bookcafe.dto.UserRequestDto;
 import com.miniproject2.bookcafe.repository.MoimMemberRepository;
 import com.miniproject2.bookcafe.repository.MoimRepository;
 import com.miniproject2.bookcafe.repository.UserRepository;
@@ -13,6 +14,7 @@ import com.miniproject2.bookcafe.service.MoimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -97,6 +99,12 @@ public class MoimController {
         return "모임 참가 취소 성공";
     }
 
+
+    // 유저가 참가 신청한 모임 조회하기
+    @GetMapping("/moims/user")
+    public List<MoimResponseDto> getUserMoims(@RequestBody UserRequestDto requestDto){
+        return moimService.getUserMoims(requestDto);
+    }
 }
 
 

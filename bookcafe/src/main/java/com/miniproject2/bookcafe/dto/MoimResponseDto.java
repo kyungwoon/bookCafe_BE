@@ -46,4 +46,20 @@ public class MoimResponseDto {
     }
 
 
+    public MoimResponseDto(Moim moim){
+        this.moimId = moim.getMoimId();
+        this.title = moim.getTitle();
+        this.contents = moim.getContents();
+        this.nickname = moim.getNickname();
+        this.personCnt = moim.getPersonCnt();
+        this.bookTitle = moim.getBookTitle();
+        this.bookContents = moim.getBookContents();
+        this.joinUntil = moim.getJoinUntil();
+        this.bookUrl = moim.getBookUrl();
+        this.imageUrl = moim.getImageUrl();
+        this.createdAt = moim.getCreatedAt();
+        this.modifiedAt = moim.getModifiedAt();
+//        this.comments = moim.getComments();
+    }
+
 }

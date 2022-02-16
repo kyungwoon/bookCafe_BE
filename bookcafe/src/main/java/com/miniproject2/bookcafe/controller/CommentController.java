@@ -20,7 +20,7 @@ public class CommentController {
 
     //댓글 작성
     @PostMapping("/comments/{moimId}")
-    public String writeComment(@PathVariable Long moimId, @RequestBody CommentRequestDto commentRequestDto ) {
+    public Comment writeComment(@PathVariable Long moimId, @RequestBody CommentRequestDto commentRequestDto ) {
         return commentService.writeComment(commentRequestDto, moimId);
     }
 
