@@ -3,16 +3,12 @@ package com.miniproject2.bookcafe.service;
 import com.miniproject2.bookcafe.domain.Moim;
 import com.miniproject2.bookcafe.domain.MoimMember;
 import com.miniproject2.bookcafe.domain.User;
-import com.miniproject2.bookcafe.dto.CommentResponseDto;
 import com.miniproject2.bookcafe.dto.MoimRequestDto;
 import com.miniproject2.bookcafe.dto.MoimResponseDto;
-import com.miniproject2.bookcafe.dto.UserRequestDto;
-import com.miniproject2.bookcafe.repository.MoimMemberRepository;
 import com.miniproject2.bookcafe.repository.MoimRepository;
 import com.miniproject2.bookcafe.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -38,6 +34,7 @@ public class MoimService {
         return moim;
     }
 
+    // 요청 사항에 맞게 모임 가져오기
     public List<MoimResponseDto> getMoims(){
         // 최신 순으로 모임 리스트 정렬
         List<Moim> moimList= moimRepository.findAllByOrderByCreatedAtDesc();
@@ -60,6 +57,7 @@ public class MoimService {
 
 
 
+    // 모임 찾아서 수정하기
     @Transactional
     public Long update(Long moimId, MoimRequestDto requestDto){
         Moim moim =  moimRepository.findById(moimId).orElseThrow(
@@ -68,7 +66,6 @@ public class MoimService {
         moim.update(requestDto);
         return moimId;
     }
-
 
 
     public MoimResponseDto getMoimDetails(Long moimId) {
@@ -102,7 +99,7 @@ public class MoimService {
                 collect(Collectors.toList());
     }
 
-
+    // 모임 멤버 리스트로 반환
     private List<String> getJoinMembers(List<MoimMember> moimMemberList) {
         List<String> joinMembers = new ArrayList<>();
         for (MoimMember moimMember : moimMemberList) {
