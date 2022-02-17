@@ -21,7 +21,7 @@
 
 ## 4. ERD 설계 
 
-<img src="https://user-images.githubusercontent.com/44867889/154412134-2955330e-cc68-42d9-80ee-d5f57f46517b.png" width="70%" height="70%">
+<img src="https://user-images.githubusercontent.com/44867889/154412134-2955330e-cc68-42d9-80ee-d5f57f46517b.png" width="80%" height="80%">
 
 
 ## 5. API 테이블  
