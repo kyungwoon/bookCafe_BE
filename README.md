@@ -71,9 +71,13 @@ Tool
 ## 8. 우리팀이 해결한 문제 
 1. get 요청시 request body로 유저의 닉네임을 받아오도록  api를 설계하였으나 axios는 get 요청시  requestbody의 값을 받는 것이 불가능했다.    
     => pathvariable로 값을 받아오도록 api를 변경하였다. 닉네임 중에는 한글이 있어 pathvariable로 요청할때 utf8로 변경하여 요청하였다.  
-   
 2. 로그인 후 토큰을 생성하여 토큰 값을 헤더에 넣어서 프론트 엔드로 보내주었으나 프론트에서 읽지 못하는 오류가 있었다.     
     => 백엔드 cors 설정에 
-    .allowedHeaders("*") .exposedHeaders(HttpHeaders.AUTHORIZATION)
+    .allowedHeaders(" * ") .exposedHeaders(HttpHeaders.AUTHORIZATION)
     을 추가하여 프론트에서 헤더에 접근이 가능하도록 하였다. 
+3. many to many  양방향 연결이 필요한 테이블이 있었다. 
+    =>  중간에 연결 테이블을 추가하여 문제를 해결하였다.   
+4. 양방향 연결관계의 테이블 삭제 시 외래 키로 인한 오류가 발생하였다. 
+    => orphanRemoval = true 설정을 주인이 아닌 테이블에 추가하여 해결하였다. 
+    
     
