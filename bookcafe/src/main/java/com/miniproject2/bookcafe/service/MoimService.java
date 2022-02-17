@@ -99,7 +99,7 @@ public class MoimService {
                 collect(Collectors.toList());
     }
 
-    // 모임 멤버 리스트로 반환
+
     private List<String> getJoinMembers(List<MoimMember> moimMemberList) {
         List<String> joinMembers = new ArrayList<>();
         for (MoimMember moimMember : moimMemberList) {
