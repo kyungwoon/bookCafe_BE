@@ -26,7 +26,7 @@ https://www.youtube.com/watch?v=2-U77XR8JBM
 <img src="https://user-images.githubusercontent.com/44867889/154412134-2955330e-cc68-42d9-80ee-d5f57f46517b.png" width="80%" height="80%">
 
 
-## :whale: API 테이블  
+## :smile: API 테이블  
 
 <details> 
     <summary>여기를 눌러주세요</summary>   
