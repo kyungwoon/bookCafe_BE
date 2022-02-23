@@ -34,6 +34,7 @@ public class MoimService {
         return moim;
     }
 
+    // 요청 사항에 맞게 모임 가져오기
     public List<MoimResponseDto> getMoims(){
         // 최신 순으로 모임 리스트 정렬
         List<Moim> moimList= moimRepository.findAllByOrderByCreatedAtDesc();
@@ -56,6 +57,7 @@ public class MoimService {
 
 
 
+    // 모임 찾아서 수정하기
     @Transactional
     public Long update(Long moimId, MoimRequestDto requestDto){
         Moim moim =  moimRepository.findById(moimId).orElseThrow(
@@ -66,8 +68,8 @@ public class MoimService {
     }
 
 
-
     public MoimResponseDto getMoimDetails(Long moimId) {
+
         Moim moim = moimRepository.findById(moimId).orElseThrow(
                 () -> new IllegalArgumentException("모임이 존재하지 않습니다.")
         );
@@ -78,6 +80,7 @@ public class MoimService {
     }
 
 
+
     public List<MoimResponseDto> getUserMoims(String nickname){
         System.out.println("nickname : "+ nickname);
         User user = userRepository.findByNickname(nickname);
@@ -85,7 +88,6 @@ public class MoimService {
 
         List<MoimResponseDto> moimResponseDtos = new ArrayList<>();
         for (MoimMember moimMember : moimMembers){
-
             Moim moim = moimMember.getMoim();
             List<MoimMember> moimMemberList = moim.getMoimMembers();
             List<String> joinMembers = getJoinMembers(moimMemberList);
