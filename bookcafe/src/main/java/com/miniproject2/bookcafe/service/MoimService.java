@@ -69,6 +69,7 @@ public class MoimService {
 
 
     public MoimResponseDto getMoimDetails(Long moimId) {
+
         Moim moim = moimRepository.findById(moimId).orElseThrow(
                 () -> new IllegalArgumentException("모임이 존재하지 않습니다.")
         );
@@ -79,6 +80,7 @@ public class MoimService {
     }
 
 
+
     public List<MoimResponseDto> getUserMoims(String nickname){
         System.out.println("nickname : "+ nickname);
         User user = userRepository.findByNickname(nickname);
@@ -86,7 +88,6 @@ public class MoimService {
 
         List<MoimResponseDto> moimResponseDtos = new ArrayList<>();
         for (MoimMember moimMember : moimMembers){
-
             Moim moim = moimMember.getMoim();
             List<MoimMember> moimMemberList = moim.getMoimMembers();
             List<String> joinMembers = getJoinMembers(moimMemberList);

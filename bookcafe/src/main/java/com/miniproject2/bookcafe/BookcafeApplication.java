@@ -12,6 +12,7 @@ import java.util.TimeZone;
 @SpringBootApplication
 @ServletComponentScan
 public class BookcafeApplication {
+
     @PostConstruct
     public void started() {
         // timezone UTC 셋팅

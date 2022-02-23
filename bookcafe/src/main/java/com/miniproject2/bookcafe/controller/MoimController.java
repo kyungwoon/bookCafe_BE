@@ -77,7 +77,7 @@ public class MoimController {
     }
 
 
-    // 모임 참가 취소하기
+    // https://bcp0109.tistory.com/332 모임 참가 취소하기
     @DeleteMapping("/moims/join")
     public String deleteMoimMember(@RequestBody MoimMemberRequestDto requestDto){
         Moim moim = moimRepository.findById(requestDto.getMoimId()).orElseThrow(
@@ -86,12 +86,11 @@ public class MoimController {
 
         List<MoimMember>moimMembers = moim.getMoimMembers();
 
+        // 닉네임이 일치하면 삭제한다
         for(MoimMember moimMember : moimMembers){
             String deleteNickname = requestDto.getNickname();
             String targetNickname = moimMember.getUser().getNickname();
             if(deleteNickname.equals(targetNickname)){
-                System.out.println(deleteNickname);
-                System.out.println(targetNickname);
                 moimMemberRepository.deleteById(moimMember.getMemberId());
                 return "참가 취소 성공";
             }
