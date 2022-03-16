@@ -58,8 +58,7 @@ public class MoimController {
 
     // 모임 내용 수정하기
     @PutMapping("/moims/{moimId}")
-    public Moim updateMoim(@PathVariable Long moimId,
-                           @RequestBody MoimRequestDto requestDto){
+    public Moim updateMoim(@PathVariable Long moimId, @RequestBody MoimRequestDto requestDto){
         moimService.update(moimId, requestDto);
         return null;
     }

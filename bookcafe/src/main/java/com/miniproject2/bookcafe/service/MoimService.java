@@ -46,12 +46,18 @@ public class MoimService {
             List<MoimMember> moimMemberList = moim.getMoimMembers();
             if (moimMemberList != null) {
                 List<String> joinMembers = getJoinMembers(moimMemberList);
-                MoimResponseDto moimResponseDto =
-                        new MoimResponseDto(moim, joinMembers);
+                MoimResponseDto moimResponseDto = new MoimResponseDto(moim, joinMembers);
                 moimResponseDtos.add(moimResponseDto);
             }
         }
         return moimResponseDtos;
+    }
+    private List<String> getJoinMembers(List<MoimMember> moimMemberList) {
+        List<String> joinMembers = new ArrayList<>();
+        for (MoimMember moimMember : moimMemberList) {
+            joinMembers.add(moimMember.getUser().getNickname());
+        }
+        return joinMembers;
     }
 
 
@@ -81,6 +87,7 @@ public class MoimService {
 
 
 
+
     public List<MoimResponseDto> getUserMoims(String nickname){
         System.out.println("nickname : "+ nickname);
         User user = userRepository.findByNickname(nickname);
@@ -101,12 +108,6 @@ public class MoimService {
     }
 
 
-    private List<String> getJoinMembers(List<MoimMember> moimMemberList) {
-        List<String> joinMembers = new ArrayList<>();
-        for (MoimMember moimMember : moimMemberList) {
-            joinMembers.add(moimMember.getUser().getNickname());
-        }
-        return joinMembers;
-    }
+
 
 }

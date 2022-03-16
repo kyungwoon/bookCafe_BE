@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="bookcafe" uuid="fc852c3f-1296-494d-92a2-b5685564648a">
+    <data-source source="LOCAL" name="bookcafe" uuid="3dd94ae9-4ef9-4dc8-8729-7e3a2a001d85">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://springboot-db2.cf0ijdzgtiko.ap-northeast-2.rds.amazonaws.com:3306</jdbc-url>
+      <jdbc-url>jdbc:mysql://bookcafe.cxiar8d6cgw5.ap-northeast-2.rds.amazonaws.com:3306</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
